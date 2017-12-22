@@ -1,29 +1,39 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {ListGroup, ListGroupItem, Form, FormControl, FormGroup, Button, InputGroup }from 'react-bootstrap';
 import './index.css';
 
 const AddToTaskForm = ({addTodo}) => {
   let task;
   return (
-    <div>
-      <input ref={node => {
-        task = node;
-      }} />
-      <button onClick={() => {
-        addTodo(task.value);
-        task.value = '';
-      }}>
-        +
-      </button>
+    <div >
+      <Form>
+        <FormGroup>
+          <InputGroup>
+            <FormControl inputRef={node => {
+                task = node;
+              }} placeholder="Type in a task"/>
+            <InputGroup.Button>
+              <Button onClick={() => {
+                addTodo(task.value);
+                console.log(task.value);
+                task.value = '';
+              }} bsStyle="success">
+                +
+              </Button>
+            </InputGroup.Button>
+          </InputGroup>
+        </FormGroup>
+      </Form>
     </div>
   );
 }
 
 const Todo = ({todo, remove}) => {
   return (
-    <li onClick={() => {(remove(todo.id))}}> 
+    <ListGroupItem onClick={() => {(remove(todo.id))}}> 
       {todo.text}
-    </li>
+    </ListGroupItem>
   )
 }
 
@@ -31,7 +41,7 @@ const ToDoList = ({todos, remove}) => {
   const todoNode = todos.map((todo) => {
     return (<Todo todo={todo} key={todo.id} remove={remove}/>)
   });
-  return (<ul> {todoNode} </ul>)
+  return (<ListGroup> {todoNode} </ListGroup>)
 }
 window.id = 0;
 class TodoApp extends React.Component{
